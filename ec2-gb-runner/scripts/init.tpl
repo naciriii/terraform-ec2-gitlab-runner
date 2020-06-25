@@ -21,11 +21,11 @@ sudo apt-get update
 curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
 sudo apt-get install gitlab-runner
 # Register the gitlab runner by project token
-sudo gitlab-runner register --non-interactive --url "https://gitlab.com/" --registration-token ${gitlab_token} \
-  --executor docker --docker-image "ruby:2.5" --name "ec2-gitlab-runner"  --tag-list "ec2-gitlab-runner" \
-  --locked=false --run-untagged=true --access-level= "not_protect"
+sudo gitlab-runner register --non-interactive --url ${runner_url} --registration-token ${gitlab_token} \
+  --executor ${runner_executor}  --docker-image ${runner_default_docker_image} --name ${runner_name} --tag-list ${runner_tags}  \
+  --locked=${runner_locked} --run-untagged=${runner_run_untagged} --access-level= "not_protect"
 # Set concurrent to 4 instead of 1 to allow running multi jobs
-sudo sed -i -e '/concurrent/s/1/4/' /etc/gitlab-runner/config.toml
+sudo sed -i -e '/concurrent/s/1/${concurrent_limit}/' /etc/gitlab-runner/config.toml
 # Verify the runner and delete unsused
 sudo gitlab-runner verify --delete
 
