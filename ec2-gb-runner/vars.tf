@@ -10,6 +10,10 @@ variable "gitlab_token" {
   description = "Gitlab ci token"
   default     = "testtest"
 }
+variable "runners" {
+  description = "Number of runners to register"
+  default     = 1
+}
 variable "runner_url" {
   description = "Gitlab runner Coordinator url"
   default     = "https://gitlab.com/"
@@ -40,5 +44,5 @@ variable "runner_run_untagged" {
 }
 variable "concurrent" {
   description = "How many jobs allowed to run concurrently"
-  default     = 4
+  default     = 10
 }

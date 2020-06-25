@@ -41,6 +41,7 @@ data "template_file" "init" {
   template = file("${path.module}/scripts/init.tpl")
   vars = {
     gitlab_token                = var.gitlab_token
+    runners                     = var.runners
     concurrent_limit            = var.concurrent
     runner_url                  = var.runner_url
     runner_default_docker_image = var.runner_default_image
