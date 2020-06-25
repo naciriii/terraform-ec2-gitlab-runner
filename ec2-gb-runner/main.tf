@@ -40,7 +40,19 @@ resource "aws_security_group" "allow_ssh" {
 data "template_file" "init" {
   template = file("${path.module}/scripts/init.tpl")
   vars = {
-    gitlab_token = "${var.gitlab_token}"
+    gitlab_token                = var.gitlab_token
+    concurrent_limit            = var.concurrent
+    runner_url                  = var.runner_url
+    runner_default_docker_image = var.runner_default_image
+    runner_name                 = var.runner_name
+    runner_executor             = var.runner_executor
+    runner_tags                 = var.runner_tags
+    runner_run_untagged         = var.runner_run_untagged
+    runner_locked               = var.runner_locked
+
+
+
+
 
   }
 }
