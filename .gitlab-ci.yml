@@ -23,8 +23,9 @@ before_script:
   - terraform --version
   - terraform init
 
-.only-default: &only-default
+.only-default:
   only:
+    refs:
       - branches
       - merge_requests
       - tags
@@ -34,10 +35,11 @@ stages:
   - deploy
 
 validate:
-  <<: *only-default
   stage: validate
   script:
     - terraform validate
+  extends: .only-default
+  
 
 plan:
   stage: build
@@ -70,6 +72,8 @@ plan review:
   only:
     refs:
       - merge_requests
+    changes:
+      - "*.tf"
   dependencies: 
     - validate
 
