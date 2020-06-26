@@ -25,9 +25,10 @@ before_script:
 
 .only-default: &only-default
   only:
-    - branches
-    - merge_requests
-    - tags
+    refs:
+      - branches
+      - merge_requests
+      - tags
 stages:
   - validate
   - build
