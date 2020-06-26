@@ -23,19 +23,12 @@ before_script:
   - terraform --version
   - terraform init
 
-.only-default: &only-default
-  only:
-    refs:
-      - branches
-      - merge_requests
-      - tags
 stages:
   - validate
   - build
   - deploy
 
 validate:
-  <<: *only-default
   stage: validate
   script:
     - terraform validate
