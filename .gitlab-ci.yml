@@ -30,6 +30,7 @@ before_script:
       - tags
 stages:
   - validate
+  - lint
   - build
   - deploy
 
@@ -39,6 +40,12 @@ validate:
   script:
     - terraform validate
 
+lint:
+  <<: *only-default
+  stage: lint
+  script:
+    - terraform fmt -check -recursive
+
 plan:
   stage: build
   script:
@@ -46,7 +53,7 @@ plan:
   artifacts:
     paths:
       - $PLAN
-
+# Only execute for Merge requests
 plan review:
   stage: build
   script:
