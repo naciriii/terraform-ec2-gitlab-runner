@@ -1,5 +1,5 @@
 
-resource "aws_instance" "ec2-gb-runner" {
+resource "aws_spot_instance_request" "ec2-gitlab-runner" {
   ami           = "ami-085925f297f89fce1"
   instance_type = "t2.micro"
   key_name      = "nacer"
