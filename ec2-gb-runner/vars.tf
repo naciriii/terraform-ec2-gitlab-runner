@@ -52,5 +52,5 @@ variable "runner_run_untagged" {
 }
 variable "concurrent" {
   description = "How many jobs allowed to run concurrently"
-  default     = 10
+  default     = 4
 }
