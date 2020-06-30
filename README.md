@@ -1,21 +1,17 @@
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
-
-[![Pipeline status](https://gitlab.com/lifecycle.one/ec2-gitlab-runner/badges/master/pipeline.svg)](https://gitlab.com/lifecycle.one/ec2-gitlab-runner/-/commits/master)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)[![Pipeline status](https://gitlab.com/lifecycle.one/ec2-gitlab-runner/badges/master/pipeline.svg)](https://gitlab.com/lifecycle.one/ec2-gitlab-runner/-/commits/master)
 
 
 # EC2 Gitlab Runner
 
 This repository holds the terraform description of reusable scalable gitlab runner hosted on t2.micro AWS EC2.
 
-The Gitlab runner is hosted on EC2 spot instances in order to reduce costs and make use from the free tier at maximum (Spot instances can reduce ec2 costs almost to 90%), we make use of the unused Amazon EC2 cloud capacity based on spot instances requests, meanwhile if Amazon reclaim back the spot instance a new requests for another one will be created automatically through persistent spot requests to ensure availability of the runner's host
-
-[![Pipeline status](https://gitlab.com/lifecycle.one/infrastructure/badges/master/pipeline.svg)](https://gitlab.com/lifecycle.one/infrastructure/-/commits/master)
+The Gitlab runner is hosted on EC2 spot instances in order to reduce costs and make use from the free tier at maximum (Spot instances can reduce ec2 costs almost to 90%), we make use of the unused Amazon EC2 cloud capacity based on spot instances requests, meanwhile if Amazon reclaim back the spot instance a new requests for another one will be created automatically through persistent spot requests to ensure availability of the runner's host.
 
 
 ##  Structure
 
 | **Root Directory** ||
-|--- |--- |
+|------ |--- |
 |main.tf|Initialization ofthe reusable ec2-gb-runner module to create as many as needed instances and set configuration variables in the initialization) |
 |output.tf|Display what to output after applying changes) |
 |       ***/ec2-gb-runner*** Directory | |
