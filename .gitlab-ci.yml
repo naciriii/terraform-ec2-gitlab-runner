@@ -1,0 +1,93 @@
+# This file is a template, and might need editing before it works on your project.
+# Official image for Hashicorp's Terraform. It uses light image which is Alpine
+# based as it is much lighter.
+#
+# Entrypoint is also needed as image by default set `terraform` binary as an
+# entrypoint.
+image:
+  name: registry.gitlab.com/gitlab-org/gitlab-build-images:terraform
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+variables:
+  PLAN: plan.tfplan
+  JSON_PLAN_FILE: tfplan.json
+
+cache:
+  paths:
+    - .terraform
+
+before_script:
+  - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+  - terraform --version
+  - terraform init
+
+.only-default: &only-default
+  only:
+      - branches
+      - merge_requests
+      - tags
+stages:
+  - validate
+  - lint
+  - build
+  - deploy
+
+validate:
+  <<: *only-default
+  stage: validate
+  script:
+    - terraform validate
+
+lint:
+  <<: *only-default
+  stage: lint
+  script:
+    - terraform fmt -check -recursive
+
+plan:
+  stage: build
+  script:
+    - terraform plan -out=$PLAN
+  artifacts:
+    paths:
+      - $PLAN
+# Only execute for Merge requests
+plan review:
+  stage: build
+  script:
+    - apk add --update curl && rm -rf /var/cache/apk/*
+    - terraform plan -out=$PLAN 
+    - "terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE"
+    - echo body="Terraform Plan :" > plan.txt
+    - echo \`\`\`diff >> plan.txt
+    - terraform show -no-color  $PLAN | tee -a plan.txt
+    - echo \`\`\` >> plan.txt
+    - sed -i -e 's/^  +/+/g' plan.txt
+    - sed -i -e 's/^  ~/~/g' plan.txt
+    - sed -i -e 's/^  -/-/g' plan.txt
+    - >-
+      curl -X POST -g -H "PRIVATE-TOKEN: ${GITLAB_TOKEN}"
+      --data-binary @plan.txt
+      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}/discussions"
+  artifacts:
+    reports:
+      terraform: $JSON_PLAN_FILE
+  only:
+    refs:
+      - merge_requests
+  dependencies: 
+    - validate
+
+apply:
+  stage: deploy
+  environment:
+    name: production
+  script:
+    - terraform apply -input=false $PLAN
+  dependencies:
+    - plan
+  when: manual
+  only:
+    - master

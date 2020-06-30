@@ -1,14 +1,14 @@
 output "ec2-runner-dns" {
-  value       = aws_instance.ec2-gb-runner.public_dns
+  value       = module.ec2-gb-runner.ec2-runner-dns
   description = "Ec2 gitlab runner public dns"
 }
 output "ec2-runner-ip" {
-  value       = aws_instance.ec2-gb-runner.public_ip
+  value       = module.ec2-gb-runner.ec2-runner-ip
   description = "Ec2 gitlab runner public dns"
 }
 output "ec2-runner-type" {
-  value = aws_instance.ec2-gb-runner.instance_type
+  value = module.ec2-gb-runner.ec2-runner-type
 }
 output "gitlab_token" {
-  value = var.gitlab_token
+  value = module.ec2-gb-runner.gitlab_token
 }
