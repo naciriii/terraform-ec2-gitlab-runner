@@ -1,4 +1,4 @@
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)[![Pipeline status](https://gitlab.com/lifecycle.one/ec2-gitlab-runner/badges/master/pipeline.svg)](https://gitlab.com/lifecycle.one/ec2-gitlab-runner/-/commits/master)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)  [![Pipeline status](https://gitlab.com/lifecycle.one/ec2-gitlab-runner/badges/master/pipeline.svg)](https://gitlab.com/lifecycle.one/ec2-gitlab-runner/-/commits/master)
 
 
 # EC2 Gitlab Runner
