@@ -13,13 +13,13 @@ The Gitlab runner is hosted on EC2 spot instances in order to reduce costs and m
 | **Root Directory** ||
 |------ |--- |
 |main.tf|Initialization ofthe reusable ec2-gb-runner module to create as many as needed instances and set configuration variables in the initialization) |
+|provider.tf |Here Set the provider to AWS |
+|backend.tf|Here we initialize the s3 backend that store the state remotely, and expose the remote state to be used from s3|
 |output.tf|Display what to output after applying changes) |
 |       ***/ec2-gb-runner*** Directory | |
 |main.tf |EC2 machines intialization and configuration along with configuring security groups and ebs volumes |
-|backend.tf|Here we initialize the s3 backend that store the state remotely, and expose the remote state to be used from s3|
 |output.tf |Here we specify the output of the module after applying changes) | 
 |vars.tf |Here we declare and initialize variables used by the ec2-gb-runner module) |
-|provider.tf |Here Set the provider to AWS |
 |scripts | Initialization script to be executed in provisioned ec2 instances on launch through cloud-init ec2 user-data, init.tpl will execute a bash script that handles installing docker and gitlab runner and registering runners with gitlab projects/groups|
 
 
@@ -52,10 +52,6 @@ module "ec2-gb-runner" {
   runner_tags = <Runner tags seperated by ',', default(ec2-gitlab-runner)>
   runner_locked = <Either runner is locked to the project or not, default(false)>
   runner_run_untagged = <Either runner is allowed to run untagged jobs, default(true)>
-  tf-bucket = <S3 bucket that host remote state, default(tf-gitlab-ci-runner)>
-  tf-state-file = <file name that has remote state in s3, default(terraform.tfstate)>
-  profile = <AWS profile name>
-  region = <AWS region default(us-east-1)>
 }
 ```
   
