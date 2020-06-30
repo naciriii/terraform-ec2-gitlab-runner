@@ -1,6 +1,6 @@
 variable "profile" {
   description = "AWS profile"
-  default     = "appsync"
+  default     = "lc1"
 }
 variable "region" {
   description = "AWS region"
@@ -16,7 +16,6 @@ variable "tf-state-file" {
 }
 variable "gitlab_token" {
   description = "Gitlab ci token"
-  default     = "testtest"
 }
 variable "runners" {
   description = "Number of runners to register"
