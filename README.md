@@ -12,7 +12,6 @@ The Gitlab runner is hosted on EC2 Instance  and parametrized as needed and make
 
 | **Root Directory** ||
 |------ |--- |
-
 |main.tf |EC2 machines intialization and configuration along with configuring security groups and ebs volumes |
 |output.tf |Here we specify the output of the module after applying changes) | 
 |vars.tf |Here we declare and initialize variables used by the ec2-gb-runner module) |
