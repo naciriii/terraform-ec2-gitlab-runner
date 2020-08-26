@@ -2,12 +2,16 @@
 variable "gitlab_token" {
   description = "Gitlab ci token"
 }
+variable "instance_type" {
+  description = "EC2 instance type"
+  default     = "t2.micro"
+}
 variable "key_name" {
   description = "EC2 Key name"
+  default     = null
 }
-variable "allow-ssh" {
-  description = "Either To allow SSH access or not"
-  default     = true
+variable "public_key" {
+  description = "public key value passed inline"
 }
 variable "runners" {
   description = "Number of runners to register"
@@ -35,7 +39,11 @@ variable "runner_tags" {
 }
 variable "runner_locked" {
   description = "runner locked to projects or can be used by others"
-  default     = false
+  default     = true
+}
+variable "runner_privileged" {
+  description = "runner run in privileged mode for container builds"
+  default     = true
 }
 variable "runner_run_untagged" {
   description = "runner can be used without tags in ci"
