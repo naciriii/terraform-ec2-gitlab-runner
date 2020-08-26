@@ -25,7 +25,8 @@ sudo gitlab-runner unregister --all-runners
 # Register the first gitlab runner by project token
 sudo gitlab-runner register --non-interactive --url ${runner_url} --registration-token ${gitlab_token} \
   --executor ${runner_executor}  --docker-image ${runner_default_docker_image} --name ${runner_name} --tag-list ${runner_tags}  \
-  --locked=${runner_locked} --run-untagged=${runner_run_untagged} --access-level= "not_protect"
+  --locked=${runner_locked} --docker-privileged --run-untagged=${runner_run_untagged} --access-level="not_protected" --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+
 
 # Register other runners if exist with suffixed names
 for (( i=2; i<=${runners}; i++ ))
@@ -33,7 +34,8 @@ do
 TAGS=$(echo ${runner_tags} | sed "s/,/$i,/g" | sed "s/$/$i/")
 sudo gitlab-runner register --non-interactive --url ${runner_url} --registration-token ${gitlab_token} \
   --executor ${runner_executor}  --docker-image ${runner_default_docker_image} --name ${runner_name}-$i --tag-list $TAGS  \
-  --locked=${runner_locked} --run-untagged=${runner_run_untagged} --access-level= "not_protect"
+  --locked=${runner_locked} --docker-privileged --run-untagged=${runner_run_untagged} --access-level="not_protected" --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+
 done
 # Set concurrent to 4 instead of 1 to allow running multi jobs
 sudo sed -i -e '/concurrent/s/1/${concurrent_limit}/' /etc/gitlab-runner/config.toml
